@@ -13,7 +13,7 @@ for p in [str(root_dir), str(backend_dir)]:
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from sqlalchemy.orm import Session
 
 from backend.config import settings
@@ -22,7 +22,11 @@ from backend.routers import auth, chat, memories, profile
 from backend.schemas import HealthResponse
 
 # Create database tables if they do not exist
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    import logging
+    logging.getLogger("dakshu").warning(f"Database table initialization warning: {e}")
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -80,32 +84,40 @@ if frontend_dir.exists():
         if sub_path.exists():
             app.mount(f"/{sub}", StaticFiles(directory=str(sub_path)), name=sub)
 
+    def safe_html(file_path: Path):
+        try:
+            if file_path.exists():
+                return HTMLResponse(content=file_path.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+        return FileResponse(file_path)
+
     # Route for landing page
     @app.get("/", include_in_schema=False)
     async def serve_index():
-        return FileResponse(frontend_dir / "index.html")
+        return safe_html(frontend_dir / "index.html")
 
     # Route for chat page
     @app.get("/chat", include_in_schema=False)
     @app.get("/chat.html", include_in_schema=False)
     async def serve_chat():
-        return FileResponse(frontend_dir / "chat.html")
+        return safe_html(frontend_dir / "chat.html")
 
     # Route for login page
     @app.get("/login", include_in_schema=False)
     @app.get("/login.html", include_in_schema=False)
     async def serve_login():
-        return FileResponse(frontend_dir / "login.html")
+        return safe_html(frontend_dir / "login.html")
 
     # Route for register page
     @app.get("/register", include_in_schema=False)
     @app.get("/register.html", include_in_schema=False)
     async def serve_register():
-        return FileResponse(frontend_dir / "register.html")
+        return safe_html(frontend_dir / "register.html")
 
     # Route for profile page
     @app.get("/profile", include_in_schema=False)
     @app.get("/profile.html", include_in_schema=False)
     async def serve_profile():
-        return FileResponse(frontend_dir / "profile.html")
+        return safe_html(frontend_dir / "profile.html")
 
