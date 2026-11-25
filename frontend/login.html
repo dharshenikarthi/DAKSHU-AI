@@ -70,6 +70,12 @@
         return;
       }
 
+      const emailInput = document.getElementById('email');
+      const savedEmail = localStorage.getItem('dakshu_saved_email');
+      if (savedEmail && emailInput) {
+        emailInput.value = savedEmail;
+      }
+
       const form = document.getElementById('login-form');
       const errorBanner = document.getElementById('error-banner');
       const loginBtn = document.getElementById('login-btn');
@@ -97,11 +103,12 @@
             throw new Error(data.detail || 'Invalid email or password.');
           }
 
-          // Store auth
+          // Store auth and email
+          localStorage.setItem('dakshu_saved_email', email);
           DakshuApp.setAuth(data.access_token, data.user);
           window.location.href = 'chat.html';
         } catch (err) {
-          errorBanner.innerText = err.message;
+          errorBanner.innerHTML = `${err.message} <div style="margin-top: 6px;"><a href="register.html" style="color: #67e8f9; text-decoration: underline; font-weight: 600;">Create account with this email &rarr;</a></div>`;
           errorBanner.style.display = 'block';
         } finally {
           loginBtn.disabled = false;

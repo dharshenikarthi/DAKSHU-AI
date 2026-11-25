@@ -108,6 +108,7 @@
             throw new Error(data.detail || 'Registration failed.');
           }
 
+          localStorage.setItem('dakshu_saved_email', email);
           DakshuApp.setAuth(data.access_token, data.user);
           window.location.href = 'chat.html';
         } catch (err) {
