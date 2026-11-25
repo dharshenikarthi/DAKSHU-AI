@@ -1,6 +1,15 @@
 import os
+import sys
 from datetime import datetime
 from pathlib import Path
+
+# Ensure both project root and backend directory are in sys.path
+root_dir = Path(__file__).resolve().parent.parent
+backend_dir = Path(__file__).resolve().parent
+for p in [str(root_dir), str(backend_dir)]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
