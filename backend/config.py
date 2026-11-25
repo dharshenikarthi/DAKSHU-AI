@@ -68,7 +68,7 @@ class Settings:
 
     # Groq Hosted Inference (Ultra-fast LLM API)
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
-    GROQ_MODEL: str = os.getenv("GROQ_MODEL", "qwen/qwen3.8-27b")
+    GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
     # Google Gemini API Config
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")

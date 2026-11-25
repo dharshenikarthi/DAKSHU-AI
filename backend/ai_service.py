@@ -853,7 +853,148 @@ class BuiltinGemmaCompanionProvider(BaseAIProvider):
                 f"What is that one priority task we are going to conquer right now?"
             )
 
-        # --- 14. Conversational / Open Questions ---
+        # --- 14. Rich Concept & Knowledge Base Dictionary ---
+        concept_kb = {
+            "ml": (
+                f"### 🤖 What is Machine Learning (ML)?\n\n"
+                f"Imagine teaching a computer using examples instead of writing rigid rules! 😎 In traditional coding, humans write every single rule by hand (`if X then Y`). In **Machine Learning**, we don't hardcode rules—instead, we feed the computer lots of data, and it **learns the rules on its own**!\n\n"
+                f"✨ **How It Works in 3 Steps:**\n"
+                f"1. **Data:** You provide thousands of examples (e.g. photos labeled 'cat' or 'dog').\n"
+                f"2. **Training:** The algorithm discovers patterns (ear shapes, whiskers, snout geometry).\n"
+                f"3. **Inference:** When shown a brand-new photo, it predicts: *'That's a cat with 98% confidence!'* 🐱\n\n"
+                f"💡 **Everyday Examples You Use Daily:**\n"
+                f"- **Face Recognition:** Unlocking your phone instantly.\n"
+                f"- **Smart Recommendations:** Netflix suggesting movies you love, or Spotify Weekly mixes.\n"
+                f"- **Spam Filters:** Gmail automatically catching phishing emails.\n\n"
+                f"Would you like me to explain the 3 main types (Supervised, Unsupervised, Reinforcement Learning) or give a simple Python example{salutation}?"
+            ),
+            "dsa": (
+                f"### 🧩 What is DSA (Data Structures & Algorithms)?\n\n"
+                f"Think of **DSA** as the ultimate toolkit for writing lightning-fast, scalable code! It consists of two essential halves:\n\n"
+                f"1. **Data Structures (How we organize data):**\n"
+                f"   - Like organizing your room. If you throw clothes in a random pile, it takes 15 minutes to find socks! If you organize them in drawers, you find them in 1 second.\n"
+                f"   - *Key Examples:* **Arrays** (continuous list), **Stacks** (LIFO, like an Undo button or plate stack), **Queues** (FIFO, like a movie ticket line), **Hash Maps** (instant O(1) key-value lookup), **Trees & Graphs** (hierarchical and social networks).\n\n"
+                f"2. **Algorithms (Step-by-step recipe to solve a problem):**\n"
+                f"   - The precise instructions used to search, sort, or process that data in the fewest possible steps.\n"
+                f"   - *Key Examples:* **Binary Search** (finding an item in a sorted list in log n steps), **QuickSort / MergeSort**, **Dijkstra's Shortest Path** (powers Google Maps!).\n\n"
+                f"🎯 **Why Top Tech Companies Test DSA:**\n"
+                f"A naive solution might take 10 minutes to process 1 million users and crash the server, while an optimal DSA solution runs in 2 milliseconds. It proves you can solve complex problems efficiently!\n\n"
+                f"Which data structure would you like to start practicing with, {user_name}? (Arrays, Stacks, or Linked Lists?)"
+            ),
+            "ai": (
+                f"### 🧠 What is Artificial Intelligence (AI)?\n\n"
+                f"**Artificial Intelligence (AI)** is the broad science of creating machines and software capable of performing tasks that typically require human intelligence—such as understanding spoken language, recognizing images, making decisions, and translating between languages.\n\n"
+                f"📌 **The 3 Layers of AI:**\n"
+                f"1. **Artificial Intelligence (Broadest):** Any technique that enables computers to mimic human behavior.\n"
+                f"2. **Machine Learning (Subset of AI):** Algorithms that improve automatically through experience and data.\n"
+                f"3. **Deep Learning & GenAI (Subset of ML):** Multi-layered artificial neural networks (like transformers behind Dakshu, ChatGPT, and Gemini) that generate text, images, and audio.\n\n"
+                f"Would you like to explore how Generative AI models work under the hood{salutation}?"
+            ),
+            "python": (
+                f"### 🐍 Why is Python so Popular?\n\n"
+                f"**Python** is a high-level, dynamically-typed programming language beloved worldwide for its clean, human-readable syntax that reads almost like plain English!\n\n"
+                f"🚀 **Why Developers & Companies Love It:**\n"
+                f"- **Unmatched AI & Data Ecosystem:** PyTorch, TensorFlow, Scikit-learn, Pandas, and NumPy are the global standard for AI and data science.\n"
+                f"- **Rapid Web Development:** Frameworks like FastAPI (which powers Dakshu's backend!) and Django make building robust APIs effortless.\n"
+                f"- **Gentle Learning Curve:** You can build working prototypes in 10 lines of Python that would take 50 lines in C++ or Java.\n\n"
+                f"Are you learning Python for AI/Data Science, web development, or college exams{salutation}?"
+            ),
+            "api": (
+                f"### 🔌 What is an API (and REST APIs)?\n\n"
+                f"Imagine you are sitting at a restaurant table with a menu 🍽️:\n"
+                f"- **You (The Client):** You want food, but you cannot walk into the kitchen yourself.\n"
+                f"- **The Kitchen (The Server / Database):** Prepares data and business logic.\n"
+                f"- **The Waiter (The API):** Takes your order (`GET /menu`), delivers it to the kitchen, and brings back your delicious meal (`JSON response`)!\n\n"
+                f"**API (Application Programming Interface)** is the messenger that allows two different software programs to talk to each other securely over the internet using standard HTTP verbs:\n"
+                f"- `GET`: Retrieve data (e.g. view your profile).\n"
+                f"- `POST`: Create new data (e.g. send a chat message or register an account).\n"
+                f"- `PUT / PATCH`: Update existing data.\n"
+                f"- `DELETE`: Remove data.\n\n"
+                f"Would you like to see how a simple FastAPI endpoint is written in Python{salutation}?"
+            ),
+            "sql": (
+                f"### 🗄️ What is SQL and Databases?\n\n"
+                f"**SQL (Structured Query Language)** is the universal language used to store, query, update, and manage structured data inside relational database systems (like PostgreSQL, MySQL, and SQLite).\n\n"
+                f"📊 **How it Works (Tables & Rows):**\n"
+                f"Data is organized in structured tables with columns (attributes) and rows (records), similar to an Excel sheet with superpower security and relationships.\n\n"
+                f"🔑 **The 4 Fundamental Commands (CRUD):**\n"
+                f"- **Create:** `INSERT INTO users (name, email) VALUES ('Dharsheni', 'user@test.com');`\n"
+                f"- **Read:** `SELECT * FROM users WHERE email = 'user@test.com';`\n"
+                f"- **Update:** `UPDATE users SET status = 'active' WHERE id = 1;`\n"
+                f"- **Delete:** `DELETE FROM users WHERE id = 1;`\n\n"
+                f"Would you like me to explain Primary Keys, Foreign Keys, or SQL Joins?"
+            ),
+            "git": (
+                f"### 🐙 What is Git and GitHub?\n\n"
+                f"Think of **Git** as a superpower time machine for your code! ⏳\n\n"
+                f"- **Git (Local Time Machine):** Tracks every change you make to your project. If you write buggy code today that breaks your app, Git lets you jump back to yesterday's working version with one command (`git checkout`).\n"
+                f"- **GitHub (Cloud Collaboration Hub):** A cloud platform where you host your Git repositories. It lets you share code, collaborate with teammates across the world, and deploy apps directly to services like Vercel!\n\n"
+                f"🔑 **Key Commands to Remember:**\n"
+                f"- `git add .` : Stage all changes for saving.\n"
+                f"- `git commit -m \"message\"` : Create a permanent checkpoint.\n"
+                f"- `git push origin main` : Upload checkpoints to GitHub.\n\n"
+                f"Would you like help with branch management, pull requests, or resolving merge conflicts{salutation}?"
+            ),
+            "react": (
+                f"### ⚛️ What is React.js?\n\n"
+                f"**React** is an open-source JavaScript library developed by Meta for building fast, dynamic, and interactive user interfaces for modern web applications.\n\n"
+                f"💡 **Core Superpowers:**\n"
+                f"1. **Component-Based Architecture:** Instead of writing massive 2000-line HTML files, you build reusable LEGO blocks (e.g. `<Navbar />`, `<ChatBox />`, `<Button />`).\n"
+                f"2. **Virtual DOM:** When data changes, React calculates the minimal set of changes needed and updates only that specific element on screen without reloading the entire page.\n"
+                f"3. **Declarative State:** You describe how the UI should look for a given state (`useState`), and React keeps the UI automatically in sync.\n\n"
+                f"Are you building a React frontend or learning it for web development roles?"
+            ),
+            "cloud": (
+                f"### ☁️ What is Cloud Computing?\n\n"
+                f"**Cloud Computing** means renting computing power, servers, storage, and databases over the internet from companies like Amazon (AWS), Google Cloud (GCP), Microsoft Azure, and Vercel, instead of buying and maintaining physical server racks in your own house!\n\n"
+                f"🌐 **Why It Changed Everything:**\n"
+                f"- **Zero Hardware Costs:** You don't need an expensive server room. You deploy your website on Vercel with a single `git push` for free.\n"
+                f"- **Instant Scalability:** If 10 users visit your site today, it costs nothing. If 1,000,000 users visit tomorrow, the cloud automatically spins up new instances to handle the surge without crashing.\n"
+                f"- **High Availability:** Cloud providers replicate your app across global data centers so your site stays online 24/7 with 99.99% uptime.\n\n"
+                f"Would you like to explore serverless computing, Docker containers, or cloud databases?"
+            ),
+            "oop": (
+                f"### 🧱 What is Object-Oriented Programming (OOP)?\n\n"
+                f"**OOP** is a programming paradigm based on the concept of **'objects'**, which contain data (attributes) and code (methods). Think of it like real-world engineering blueprints!\n\n"
+                f"🚗 **The Car Blueprint Analogy:**\n"
+                f"- **Class:** The blueprint of a car (defines that cars have color, speed, and can `accelerate()`).\n"
+                f"- **Object:** The actual physical car created from that blueprint (e.g. a Red Tesla or a Blue Honda).\n\n"
+                f"⭐ **The 4 Pillars of OOP:**\n"
+                f"1. **Encapsulation:** Keeping data safe inside the object and restricting direct access.\n"
+                f"2. **Abstraction:** Hiding complex internal logic and exposing only simple controls (you press the gas pedal without needing to know engine combustion physics).\n"
+                f"3. **Inheritance:** Creating child classes that inherit features from parent classes (e.g. `ElectricCar` inherits from `Car`).\n"
+                f"4. **Polymorphism:** Allowing different classes to use the same method name with their own specific behavior.\n\n"
+                f"Which language (Python, Java, or C++) are you using to study OOP?"
+            )
+        }
+
+        # Check concept dictionary
+        q_tokens = set(re.findall(r'\b[a-z0-9_]+\b', q))
+        for key, resp in concept_kb.items():
+            key_variants = [key]
+            if key == "ml":
+                key_variants += ["machine learning"]
+            elif key == "dsa":
+                key_variants += ["data structures", "algorithms", "data structure"]
+            elif key == "ai":
+                key_variants += ["artificial intelligence", "genai", "generative ai"]
+            elif key == "api":
+                key_variants += ["rest api", "apis", "endpoint"]
+            elif key == "sql":
+                key_variants += ["database", "dbms", "postgresql", "mysql"]
+            elif key == "git":
+                key_variants += ["github", "version control"]
+            elif key == "cloud":
+                key_variants += ["cloud computing", "aws", "azure", "serverless"]
+            elif key == "react":
+                key_variants += ["reactjs", "react js"]
+            elif key == "oop":
+                key_variants += ["oops", "object oriented", "object-oriented"]
+
+            if any(var in q for var in key_variants) or key in q_tokens:
+                return resp
+
+        # --- 15. Conversational / Open Questions Fallback ---
         q_cleaned = re.sub(r"^(?:can you|please|could you|dakshu)?\s*", "", q_raw, flags=re.IGNORECASE).strip()
         subject_match = re.search(r"(?:what is|what are|explain|tell me about|how to|how does|why is|why do|why)\s+(.+?)(?:\?|$)", q_raw, re.IGNORECASE)
 
@@ -865,12 +1006,12 @@ class BuiltinGemmaCompanionProvider(BaseAIProvider):
         subject = subject_match.group(1).strip() if subject_match else q_cleaned
 
         return (
-            f"### 💡 {subject.capitalize()}\n\n"
-            f"Here is a clear, simple breakdown, {user_name}:\n\n"
-            f"1. **Core Concept:** **{subject}** helps us solve practical problems by providing a structured, reliable method.\n"
-            f"2. **How It Works:** It starts with clear inputs, applies specific rules or transformations, and delivers predictable, useful results.\n"
-            f"3. **Practical Application:** In real-world projects and studies, mastering this concept gives you a strong foundation to build more complex systems.\n\n"
-            f"Would you like me to give you a specific real-world example, show code/steps, or explain this in Tanglish?"
+            f"### 💡 Understanding **{subject.title()}**\n\n"
+            f"Great question, {user_name}! Let's look at **{subject}** from an intuitive perspective:\n\n"
+            f"1. **Core Purpose:** At its heart, **{subject}** exists to solve real-world complexity by giving us a repeatable, structured approach.\n"
+            f"2. **Real-World Analogy:** Think of it like a specialized tool in an engineer's workshop—mastering how and when to use it saves hours of trial and error.\n"
+            f"3. **Key Takeaway for You:** In technical interviews and hands-on projects, understanding the fundamental principles of **{subject}** helps you explain your thinking with confidence.\n\n"
+            f"Would you like me to walk through a concrete example, write code for this, or explain how it connects to your current studies?"
         )
 
 
