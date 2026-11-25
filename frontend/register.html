@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Started – DAKSHU AI</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Theme Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <a href="index.html" class="nav-brand" style="justify-content: center; margin-bottom: 1rem;">
+          <div class="brand-icon">
+            <i data-lucide="sparkles" style="width: 20px; height: 20px; color: #ffffff;"></i>
+          </div>
+          <span class="brand-text-gradient">DAKSHU AI</span>
+        </a>
+        <h1>Create Your Account</h1>
+        <p>Your friendly personal AI companion is ready to meet you.</p>
+      </div>
+
+      <div id="error-banner" class="error-banner"></div>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label class="form-label" for="full_name">Full Name</label>
+          <input type="text" id="full_name" class="form-control" placeholder="Your Name" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password (min. 6 characters)</label>
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+        </div>
+
+        <button type="submit" id="register-btn" class="btn btn-primary form-btn">
+          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Start Talking with Dakshu
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account? <a href="login.html" style="color: var(--neon-cyan); font-weight: 600;">Log In here</a>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.2rem;">
+        <a href="index.html" style="font-size: 0.85rem; color: var(--text-dim); display: inline-flex; align-items: center; gap: 4px;">
+          <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i> Return to Home
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (DakshuApp.isAuthenticated()) {
+        window.location.href = 'chat.html';
+        return;
+      }
+
+      const form = document.getElementById('register-form');
+      const errorBanner = document.getElementById('error-banner');
+      const registerBtn = document.getElementById('register-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorBanner.style.display = 'none';
+
+        const full_name = document.getElementById('full_name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (password.length < 6) {
+          errorBanner.innerText = "Password must be at least 6 characters long.";
+          errorBanner.style.display = 'block';
+          return;
+        }
+
+        registerBtn.disabled = true;
+        registerBtn.innerHTML = `Creating account...`;
+
+        try {
+          const res = await fetch(`${API_BASE}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ full_name, email, password })
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.detail || 'Registration failed.');
+          }
+
+          DakshuApp.setAuth(data.access_token, data.user);
+          window.location.href = 'chat.html';
+        } catch (err) {
+          errorBanner.innerText = err.message;
+          errorBanner.style.display = 'block';
+        } finally {
+          registerBtn.disabled = false;
+          registerBtn.innerHTML = `<i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Start Talking with Dakshu`;
+          if (window.lucide) lucide.createIcons();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+

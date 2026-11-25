@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAKSHU AI – Friendly Personal AI Companion</title>
+  <meta name="description" content="Talk, learn, explore, and grow with Dakshu. Your warm, multilingual AI companion supporting English, Tamil, and Tanglish.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Theme Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">
+        <i data-lucide="sparkles" style="width: 20px; height: 20px; color: #ffffff;"></i>
+      </div>
+      <span class="brand-text-gradient">DAKSHU AI</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#meet-dakshu">Meet Dakshu</a></li>
+      <li><a href="#features">What Dakshu Can Do</a></li>
+      <li><a href="#why-different">Why Dakshu</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#privacy">Privacy & Safety</a></li>
+    </ul>
+
+    <div class="nav-actions" id="nav-actions">
+      <!-- Injected by app.js depending on auth status -->
+      <a href="login.html" class="btn btn-secondary" style="padding: 0.55rem 1.2rem; font-size: 0.88rem;">Log In</a>
+      <a href="register.html" class="btn btn-primary" style="padding: 0.55rem 1.2rem; font-size: 0.88rem;">Get Started</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <!-- 3D Three.js Interactive Canvas Container -->
+    <div id="hero-three-canvas" class="three-canvas-container"></div>
+
+    <div class="hero-content">
+      <div class="badge badge-gradient">
+        <span class="status-dot"></span> Powered by Google Gemma & Multilingual Engine
+      </div>
+
+      <h1 class="hero-heading">
+        Your AI Friend.<br>
+        <span class="gradient-text">Always Ready.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Talk, learn, explore, and grow with Dakshu. Warm, conversational, and multilingual in English, Tamil, and Tanglish.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="register.html" class="btn btn-primary">
+          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Start Talking
+        </a>
+        <a href="chat.html" class="btn btn-cyan">
+          <i data-lucide="message-square" style="width: 18px; height: 18px;"></i> Chat with Dakshu
+        </a>
+        <a href="#features" class="btn btn-secondary">
+          <i data-lucide="compass" style="width: 18px; height: 18px;"></i> Explore Features
+        </a>
+      </div>
+
+      <!-- Quick Conversation Starters -->
+      <div class="hero-pills">
+        <div class="pill-card" onclick="window.location.href='chat.html?prompt=Vanakkam%20Dakshu!%20Epdi%20irukkeenga%3F'">
+          <i data-lucide="message-circle" style="width: 14px; height: 14px; color: var(--neon-cyan);"></i> "Vanakkam Dakshu! Epdi irukkeenga?"
+        </div>
+        <div class="pill-card" onclick="window.location.href='chat.html?module=study&prompt=Explain%20machine%20learning%20simply'">
+          <i data-lucide="book-open" style="width: 14px; height: 14px; color: var(--neon-purple);"></i> "Explain machine learning simply"
+        </div>
+        <div class="pill-card" onclick="window.location.href='chat.html?module=voice'">
+          <i data-lucide="mic" style="width: 14px; height: 14px; color: var(--neon-emerald);"></i> Voice Companion Mode
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet Dakshu Section -->
+  <section id="meet-dakshu" class="section">
+    <div class="section-header">
+      <span class="badge badge-gradient">Warm & Real</span>
+      <h2 class="section-title">Meet Dakshu</h2>
+      <p class="section-subtitle">Not a cold robotic assistant. A patient, friendly companion who grows with you.</p>
+    </div>
+
+    <div class="meet-dakshu-card">
+      <div>
+        <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Talk like you're talking to a close friend.</h3>
+        <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+          Dakshu is built to break the barrier of sterile, impersonal chatbots. Whether you want to share a confusing math problem, practice an upcoming job interview, brainstorm a tech project, or just speak in casual Tanglish, Dakshu listens attentively, encourages your efforts, and never judges.
+        </p>
+
+        <div class="meet-points">
+          <div class="meet-point-item">
+            <div class="meet-point-icon"><i data-lucide="heart" style="width: 20px; height: 20px;"></i></div>
+            <div>
+              <h4 style="font-size: 1.05rem;">Warm & Encouraging Tone</h4>
+              <p style="color: var(--text-muted); font-size: 0.9rem;">Patient explanations, polite suggestions, and sincere positive motivation.</p>
+            </div>
+          </div>
+
+          <div class="meet-point-item">
+            <div class="meet-point-icon"><i data-lucide="languages" style="width: 20px; height: 20px;"></i></div>
+            <div>
+              <h4 style="font-size: 1.05rem;">English, Tamil & Tanglish</h4>
+              <p style="color: var(--text-muted); font-size: 0.9rem;">Seamless code-switching. Speak casually like "Naan idha padikka help venum!" and Dakshu understands instantly.</p>
+            </div>
+          </div>
+
+          <div class="meet-point-item">
+            <div class="meet-point-icon"><i data-lucide="shield-check" style="width: 20px; height: 20px;"></i></div>
+            <div>
+              <h4 style="font-size: 1.05rem;">Honest & Privacy-Conscious</h4>
+              <p style="color: var(--text-muted); font-size: 0.9rem;">Never pretends to be human. Only remembers facts you explicitly choose to store in your memory vault.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center;">
+        <div class="glass-card" style="width: 100%; max-width: 420px; border-color: rgba(139, 92, 246, 0.4); box-shadow: var(--shadow-glow-purple);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.8rem;">
+            <div class="status-dot"></div>
+            <span style="font-weight: 700; font-size: 0.92rem;">Live Companion Preview</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.92rem;">
+            <div style="background: rgba(59, 130, 246, 0.15); padding: 0.8rem 1rem; border-radius: 12px; align-self: flex-end; max-width: 85%;">
+              "Dakshu, I have a coding interview tomorrow and I'm really nervous!"
+            </div>
+            <div style="background: rgba(18, 28, 54, 0.8); border: 1px solid var(--border-glass); padding: 0.9rem 1.1rem; border-radius: 12px; align-self: flex-start; max-width: 90%;">
+              "Hey, take a deep breath! 😊 Normal ah irunga. Nervousness is just proof that you care. You've worked hard! Let's do a quick 10-minute mock session right now to warm up your thinking. Ready?"
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Dakshu Can Do (Features) -->
+  <section id="features" class="section">
+    <div class="section-header">
+      <span class="badge badge-gradient">Versatile Capabilities</span>
+      <h2 class="section-title">What Dakshu Can Do</h2>
+      <p class="section-subtitle">Specialized interactive modes tailored for your daily learning and growth.</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- 1. AI Companion -->
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="smile" style="width: 26px; height: 26px;"></i>
+        </div>
+        <h3>AI Companion</h3>
+        <p>Natural, warm everyday conversations. Adapts effortlessly to English, Tamil, and Tanglish. Asks thoughtful follow-up questions to understand what you need.</p>
+        <ul class="feature-list">
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Natural emotional intelligence</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Tamil / Tanglish conversation</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Friendly check-ins & active listening</li>
+        </ul>
+      </div>
+
+      <!-- 2. Study Buddy -->
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="graduation-cap" style="width: 26px; height: 26px;"></i>
+        </div>
+        <h3>Study Buddy</h3>
+        <p>Master tough engineering, math, and computer science concepts. Explains jargon with relatable analogies and generates structured revision notes.</p>
+        <ul class="feature-list">
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Debugs programming errors step-by-step</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Interactive multiple-choice quizzes</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Personalized weekly study roadmaps</li>
+        </ul>
+      </div>
+
+      <!-- 3. English Speaking Partner -->
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="message-square-text" style="width: 26px; height: 26px;"></i>
+        </div>
+        <h3>English Speaking Partner</h3>
+        <p>Build unshakeable fluency in conversational English. Dakshu corrects grammar with kind explanations and suggests natural modern phrases.</p>
+        <ul class="feature-list">
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Polite, constructive grammar hints</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Natural phrasing alternatives</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Confidence-building mock interviews</li>
+        </ul>
+      </div>
+
+      <!-- 4. Idea Explorer -->
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="lightbulb" style="width: 26px; height: 26px;"></i>
+        </div>
+        <h3>Idea Explorer</h3>
+        <p>Turn raw curiosity into working products. Brainstorm startup ideas, explore emerging tech (Generative AI, Web3, Cloud), and map out MVP execution steps.</p>
+        <ul class="feature-list">
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Startup & side-project brainstorming</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Architecture and tech stack plans</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> 48-hour MVP execution blueprints</li>
+        </ul>
+      </div>
+
+      <!-- 5. Daily Motivation -->
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="zap" style="width: 26px; height: 26px;"></i>
+        </div>
+        <h3>Daily Motivation</h3>
+        <p>Overcome procrastination, exam anxiety, or burnout. Dakshu breaks large goals into bite-sized 20-minute sprints and keeps your momentum high.</p>
+        <ul class="feature-list">
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Daily micro-goals & Pomodoro tips</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Uplifting, realistic encouragement</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Focus and wellness reminders</li>
+        </ul>
+      </div>
+
+      <!-- 6. Voice Companion -->
+      <div class="glass-card feature-card">
+        <div class="feature-icon-wrapper">
+          <i data-lucide="mic" style="width: 26px; height: 26px;"></i>
+        </div>
+        <h3>Voice Companion</h3>
+        <p>Real-time speech-to-text and warm text-to-speech. Tap the microphone and talk freely with audio-reactive 3D orb pulsations.</p>
+        <ul class="feature-list">
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Browser speech recognition input</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Natural synthesized speech output</li>
+          <li><i data-lucide="check" style="width: 16px; height: 16px;"></i> Audio-reactive dynamic orb states</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Dakshu Is Different -->
+  <section id="why-different" class="section">
+    <div class="section-header">
+      <span class="badge badge-gradient">The Dakshu Philosophy</span>
+      <h2 class="section-title">Why Dakshu Is Different</h2>
+      <p class="section-subtitle">Designed from first principles to be your most comfortable digital confidant.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+      <div class="glass-card">
+        <h4 style="font-size: 1.15rem; color: var(--neon-cyan); margin-bottom: 0.6rem;">No Imposter Jargon</h4>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">Other AIs drown you in dense technical jargon. Dakshu uses real-world analogies, breaking complex ideas down step by step.</p>
+      </div>
+
+      <div class="glass-card">
+        <h4 style="font-size: 1.15rem; color: var(--neon-purple); margin-bottom: 0.6rem;">True Multilingual Comfort</h4>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">Speak English, Tamil, or everyday Tanglish. Dakshu doesn't force you into unnatural English sentences when you want to express yourself freely.</p>
+      </div>
+
+      <div class="glass-card">
+        <h4 style="font-size: 1.15rem; color: var(--neon-emerald); margin-bottom: 0.6rem;">User-Controlled Memory</h4>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">You control what Dakshu remembers. Inspect your memory vault anytime, delete individual memories with a click, or turn memory off entirely.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="section">
+    <div class="section-header">
+      <span class="badge badge-gradient">Simple & Seamless</span>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Get started in three effortless steps.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Create Your Account</h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">Sign up in seconds. Your account securely stores your chat threads and personalized learning style.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Pick Your Mode</h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">Choose between AI Companion, Study Buddy, English Speaking Partner, Idea Explorer, or Voice Mode.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Talk, Learn & Grow</h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">Type or talk via voice. Watch Dakshu's 3D orb react live as real-time streaming AI answers your questions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy & Safety -->
+  <section id="privacy" class="section">
+    <div class="section-header">
+      <span class="badge badge-gradient">Your Data, Your Rules</span>
+      <h2 class="section-title">Privacy and Safety</h2>
+      <p class="section-subtitle">We believe your personal thoughts, study notes, and goals belong exclusively to you.</p>
+    </div>
+
+    <div class="glass-card" style="padding: 2.5rem; border-color: rgba(6, 182, 212, 0.3);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;">
+        <div>
+          <div style="color: var(--neon-cyan); margin-bottom: 0.5rem;"><i data-lucide="lock" style="width: 24px; height: 24px;"></i></div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 0.4rem;">Zero Data Selling</h4>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Your conversations and memories are never sold to advertisers or third-party brokers.</p>
+        </div>
+
+        <div>
+          <div style="color: var(--neon-purple); margin-bottom: 0.5rem;"><i data-lucide="database" style="width: 24px; height: 24px;"></i></div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 0.4rem;">Isolated Memory Vault</h4>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Every user’s memories are strictly isolated with relational foreign key security and hashed credentials.</p>
+        </div>
+
+        <div>
+          <div style="color: var(--neon-emerald); margin-bottom: 0.5rem;"><i data-lucide="sliders" style="width: 24px; height: 24px;"></i></div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 0.4rem;">Granular Control</h4>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Delete conversations or specific memory items at any moment with immediate database purging.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem;">
+          <div class="brand-icon" style="width: 28px; height: 28px;">
+            <i data-lucide="sparkles" style="width: 16px; height: 16px; color: #ffffff;"></i>
+          </div>
+          <span class="brand-text-gradient">DAKSHU AI</span>
+        </div>
+        <p style="color: var(--text-dim); font-size: 0.9rem; max-width: 320px;">
+          The friendly personal AI companion designed to help you learn, speak, explore, and thrive.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 2.5rem; flex-wrap: wrap;">
+        <div>
+          <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 0.8rem; color: #ffffff;">Navigation</div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.88rem;">
+            <li><a href="chat.html">Chat App</a></li>
+            <li><a href="profile.html">Memory Vault</a></li>
+            <li><a href="login.html">Log In</a></li>
+            <li><a href="register.html">Get Started</a></li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 0.8rem; color: #ffffff;">Modules</div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.88rem;">
+            <li><a href="chat.html?module=study">Study Buddy</a></li>
+            <li><a href="chat.html?module=english">English Fluency</a></li>
+            <li><a href="chat.html?module=ideas">Idea Explorer</a></li>
+            <li><a href="chat.html?module=voice">Voice Companion</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; 2026 DAKSHU AI. Built with ❤️ for friendly, accessible AI companionship.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three-scene.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Initialize Hero 3D Orb Canvas
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        if (window.DakshuOrb) {
+          window.heroOrb = new window.DakshuOrb('hero-three-canvas', { isMini: false });
+        }
+      } catch (e) {
+        console.warn("Hero orb initialization:", e);
+      }
+    });
+  </script>
+</body>
+</html>
+

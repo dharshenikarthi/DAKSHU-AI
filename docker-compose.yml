@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  dakshu_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dakshu_ai_service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PROJECT_NAME=DAKSHU AI
+      - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY:-dakshu-production-secret-key-replace-in-env-9821}
+      - DATABASE_URL=postgresql://dakshu_user:dakshu_pass_secure@postgres_db:5432/dakshu_db
+      - AI_BACKEND=${AI_BACKEND:-builtin}
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-gemma2:2b}
+      - OPENAI_COMPATIBLE_BASE_URL=${OPENAI_COMPATIBLE_BASE_URL:-}
+      - OPENAI_COMPATIBLE_API_KEY=${OPENAI_COMPATIBLE_API_KEY:-}
+      - OPENAI_COMPATIBLE_MODEL=${OPENAI_COMPATIBLE_MODEL:-gemma-2-9b-it}
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    networks:
+      - dakshu_network
+
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: dakshu_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dakshu_user
+      POSTGRES_PASSWORD: dakshu_pass_secure
+      POSTGRES_DB: dakshu_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dakshu_user -d dakshu_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dakshu_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  dakshu_network:
+    driver: bridge
+

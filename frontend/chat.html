@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat with Dakshu – Friendly AI Companion</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Marked.js (Markdown parsing) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Prism.js (Syntax Highlighting) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+  <!-- Theme Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="overflow: hidden;">
+
+  <div id="chat-app-root" class="chat-app-container">
+
+    <!-- Left Sidebar: Conversations & Navigation -->
+    <aside id="chat-sidebar" class="chat-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="nav-brand" style="font-size: 1.15rem;">
+          <div class="brand-icon" style="width: 30px; height: 30px;">
+            <i data-lucide="sparkles" style="width: 17px; height: 17px; color: #ffffff;"></i>
+          </div>
+          <span class="brand-text-gradient">DAKSHU AI</span>
+        </a>
+        <button id="mobile-sidebar-close" class="btn btn-icon" style="display: none; width: 32px; height: 32px;">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+
+      <div style="padding: 0 1rem;">
+        <button id="new-chat-btn" class="btn btn-primary sidebar-new-chat-btn">
+          <i data-lucide="plus" style="width: 18px; height: 18px;"></i> New Conversation
+        </button>
+      </div>
+
+      <!-- Conversations History List -->
+      <div id="sidebar-conversations" class="sidebar-conversations">
+        <!-- Rendered by chat.js -->
+      </div>
+
+      <!-- Sidebar Bottom Profile & Controls -->
+      <div class="sidebar-footer">
+        <a href="profile.html" class="user-badge" id="sidebar-user-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">D</div>
+          <div>
+            <div id="sidebar-user-name" style="font-weight: 600; font-size: 0.88rem;">My Account</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim); display: flex; align-items: center; gap: 4px;">
+              <i data-lucide="brain" style="width: 12px; height: 12px; color: var(--neon-cyan);"></i> Memory Vault
+            </div>
+          </div>
+        </a>
+
+        <button id="sidebar-logout-btn" class="btn btn-icon" title="Logout" style="width: 34px; height: 34px;">
+          <i data-lucide="log-out" style="width: 15px; height: 15px;"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Chat Workspace -->
+    <main class="chat-main">
+
+      <!-- Header: Companion Status & 3D Mini Orb -->
+      <header class="chat-header">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button id="mobile-sidebar-toggle" class="btn btn-icon mobile-toggle" style="width: 36px; height: 36px;">
+            <i data-lucide="menu" style="width: 18px; height: 18px;"></i>
+          </button>
+
+          <div class="companion-status-indicator">
+            <div id="mini-orb-container" class="mini-orb-container"></div>
+            <div class="companion-info">
+              <h2>Dakshu <span class="status-dot"></span></h2>
+              <div id="companion-state-text" class="companion-state-badge">Online • Ready</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
+          <div class="user-location-badge" id="user-location-badge" title="Live tracked location (Click to refresh)" style="display: inline-flex; align-items: center; gap: 5px; padding: 0.35rem 0.8rem; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 999px; font-size: 0.78rem; color: var(--neon-purple); cursor: pointer;">
+            <i data-lucide="map-pin" style="width: 12px; height: 12px; color: var(--neon-purple);"></i>
+            <span id="user-location-text">Locating...</span>
+          </div>
+          <div class="local-model-badge" id="local-model-badge" title="Active AI inference engine" style="display: inline-flex; align-items: center; gap: 6px; padding: 0.35rem 0.8rem; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 999px; font-size: 0.78rem; color: var(--neon-cyan);">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px #22c55e;"></span>
+            <span id="local-model-name">Local: Dakshu (Ollama)</span>
+          </div>
+          <a href="profile.html" class="btn btn-secondary" style="padding: 0.45rem 1rem; font-size: 0.82rem;">
+            <i data-lucide="brain" style="width: 14px; height: 14px; color: var(--neon-purple);"></i> Memories
+          </a>
+          <a href="index.html" class="btn btn-icon" title="Return to Landing Page" style="width: 36px; height: 36px;">
+            <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+          </a>
+        </div>
+      </header>
+
+      <!-- Mode Selector Bar -->
+      <div class="module-selector">
+        <button class="module-chip active" data-module="companion">
+          <i data-lucide="smile" style="width: 14px; height: 14px;"></i> AI Companion
+        </button>
+        <button class="module-chip" data-module="study">
+          <i data-lucide="graduation-cap" style="width: 14px; height: 14px;"></i> Study Buddy
+        </button>
+        <button class="module-chip" data-module="english">
+          <i data-lucide="message-square-text" style="width: 14px; height: 14px;"></i> English Partner
+        </button>
+        <button class="module-chip" data-module="ideas">
+          <i data-lucide="lightbulb" style="width: 14px; height: 14px;"></i> Idea Explorer
+        </button>
+        <button class="module-chip" data-module="motivation">
+          <i data-lucide="zap" style="width: 14px; height: 14px;"></i> Daily Motivation
+        </button>
+        <button class="module-chip" data-module="voice">
+          <i data-lucide="mic" style="width: 14px; height: 14px;"></i> Voice Companion
+        </button>
+      </div>
+
+      <!-- Messages Stream Viewport -->
+      <div id="chat-messages" class="chat-messages">
+        <!-- Rendered by chat.js -->
+      </div>
+
+      <!-- Bottom Chat Input Dock -->
+      <div class="chat-input-container">
+        <div class="chat-input-box">
+          <button id="voice-record-btn" class="voice-record-btn" title="Speak to Dakshu (Microphone)">
+            <i data-lucide="mic" style="width: 18px; height: 18px;"></i>
+          </button>
+
+          <textarea id="chat-textarea" class="chat-textarea" rows="1" placeholder="Talk with Dakshu (English, Tamil, Tanglish)..." autofocus></textarea>
+
+          <button id="stop-generation-btn" class="btn btn-secondary" style="display: none; padding: 0.4rem 0.8rem; border-radius: var(--radius-full); font-size: 0.82rem; color: var(--neon-rose); border-color: rgba(244, 63, 94, 0.4);">
+            <i data-lucide="square" style="width: 13px; height: 13px;"></i> Stop
+          </button>
+
+          <button id="chat-send-btn" class="chat-send-btn" title="Send Message">
+            <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+          </button>
+        </div>
+        <div class="input-disclaimer">
+          Dakshu is your friendly AI companion. Verify critical educational, legal, or medical advice independently.
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/three-scene.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/chat.js"></script>
+
+  <script>
+    // Sync user avatar and name in sidebar
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = DakshuApp.getUser();
+      if (user) {
+        const nameEl = document.getElementById('sidebar-user-name');
+        const avatarEl = document.getElementById('sidebar-user-avatar');
+        if (nameEl) nameEl.innerText = user.full_name || user.email;
+        if (avatarEl && user.full_name) {
+          avatarEl.innerText = user.full_name.charAt(0).toUpperCase();
+        }
+      }
+
+      const logoutBtn = document.getElementById('sidebar-logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          try {
+            await fetch(`${API_BASE}/auth/logout`, { method: 'POST' });
+          } catch (e) {}
+          DakshuApp.clearAuth();
+          window.location.href = 'login.html';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In – DAKSHU AI</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Theme Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <a href="index.html" class="nav-brand" style="justify-content: center; margin-bottom: 1rem;">
+          <div class="brand-icon">
+            <i data-lucide="sparkles" style="width: 20px; height: 20px; color: #ffffff;"></i>
+          </div>
+          <span class="brand-text-gradient">DAKSHU AI</span>
+        </a>
+        <h1>Welcome Back</h1>
+        <p>Talk, learn, and grow with your AI companion.</p>
+      </div>
+
+      <div id="error-banner" class="error-banner"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="login-btn" class="btn btn-primary form-btn">
+          <i data-lucide="log-in" style="width: 18px; height: 18px;"></i> Log In to Dakshu
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Don't have an account yet? <a href="register.html" style="color: var(--neon-cyan); font-weight: 600;">Create one for free</a>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.2rem;">
+        <a href="index.html" style="font-size: 0.85rem; color: var(--text-dim); display: inline-flex; align-items: center; gap: 4px;">
+          <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i> Return to Home
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // If already logged in, redirect to chat
+      if (DakshuApp.isAuthenticated()) {
+        window.location.href = 'chat.html';
+        return;
+      }
+
+      const form = document.getElementById('login-form');
+      const errorBanner = document.getElementById('error-banner');
+      const loginBtn = document.getElementById('login-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorBanner.style.display = 'none';
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = `Logging in...`;
+
+        try {
+          const res = await fetch(`${API_BASE}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.detail || 'Invalid email or password.');
+          }
+
+          // Store auth
+          DakshuApp.setAuth(data.access_token, data.user);
+          window.location.href = 'chat.html';
+        } catch (err) {
+          errorBanner.innerText = err.message;
+          errorBanner.style.display = 'block';
+        } finally {
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = `<i data-lucide="log-in" style="width: 18px; height: 18px;"></i> Log In to Dakshu`;
+          if (window.lucide) lucide.createIcons();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+

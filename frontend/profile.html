@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile & Memory Vault – DAKSHU AI</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Theme Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">
+        <i data-lucide="sparkles" style="width: 20px; height: 20px; color: #ffffff;"></i>
+      </div>
+      <span class="brand-text-gradient">DAKSHU AI</span>
+    </a>
+
+    <div class="nav-actions">
+      <a href="chat.html" class="btn btn-cyan" style="padding: 0.55rem 1.2rem; font-size: 0.88rem;">
+        <i data-lucide="message-square" style="width: 16px; height: 16px;"></i> Back to Chat
+      </a>
+      <button id="nav-logout-btn" class="btn btn-icon" title="Logout" style="width: 36px; height: 36px;">
+        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="profile-container">
+
+    <!-- Profile Header Card -->
+    <div class="glass-card" style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1.2rem;">
+        <div class="user-avatar" id="profile-avatar" style="width: 58px; height: 58px; font-size: 1.5rem;">D</div>
+        <div>
+          <h1 id="profile-name" style="font-size: 1.6rem; margin-bottom: 0.2rem;">User Profile</h1>
+          <p id="profile-email" style="color: var(--text-muted); font-size: 0.95rem;">user@example.com</p>
+        </div>
+      </div>
+      <div class="badge badge-gradient">
+        <i data-lucide="shield" style="width: 14px; height: 14px;"></i> Protected by Dakshu Vault
+      </div>
+    </div>
+
+    <div class="profile-grid">
+
+      <!-- Section 1: Personal Preferences -->
+      <div class="glass-card">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.8rem;">
+          <div class="feature-icon-wrapper" style="width: 38px; height: 38px; margin-bottom: 0;">
+            <i data-lucide="sliders" style="width: 20px; height: 20px;"></i>
+          </div>
+          <div>
+            <h2 style="font-size: 1.25rem;">Dakshu Companion Preferences</h2>
+            <p style="color: var(--text-muted); font-size: 0.86rem;">Customize how Dakshu communicates with you across all modules.</p>
+          </div>
+        </div>
+
+        <form id="preferences-form">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="pref-language">Preferred Communication Language</label>
+              <select id="pref-language" class="form-control" style="background: rgba(6, 10, 22, 0.8);">
+                <option value="tanglish">Tanglish (Tamil + English)</option>
+                <option value="english">English (Natural Conversational)</option>
+                <option value="tamil">Tamil (தமிழ்)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="pref-style">Dakshu Response Style</label>
+              <select id="pref-style" class="form-control" style="background: rgba(6, 10, 22, 0.8);">
+                <option value="friendly">Friendly & Warm (Default)</option>
+                <option value="concise">Concise & Direct</option>
+                <option value="detailed">Detailed & Educational</option>
+                <option value="motivational">Uplifting & Motivational</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; background: rgba(6, 10, 22, 0.5); padding: 0.9rem 1.2rem; border-radius: var(--radius-sm); border: 1px solid var(--border-glass);">
+            <div>
+              <div style="font-weight: 600; font-size: 0.92rem;">Voice Companion Speech</div>
+              <div style="font-size: 0.82rem; color: var(--text-muted);">Allow Dakshu to speak responses aloud in Voice Mode</div>
+            </div>
+            <input type="checkbox" id="pref-voice" style="width: 20px; height: 20px; accent-color: var(--neon-cyan); cursor: pointer;" checked>
+          </div>
+
+          <button type="submit" id="save-prefs-btn" class="btn btn-primary" style="padding: 0.65rem 1.5rem;">
+            <i data-lucide="check" style="width: 16px; height: 16px;"></i> Save Preferences
+          </button>
+        </form>
+      </div>
+
+      <!-- Section 2: Personal Memory Vault -->
+      <div class="glass-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.8rem; flex-wrap: wrap; gap: 0.8rem;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="feature-icon-wrapper" style="width: 38px; height: 38px; margin-bottom: 0;">
+              <i data-lucide="brain" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div>
+              <h2 style="font-size: 1.25rem;">Personal Memory Vault</h2>
+              <p style="color: var(--text-muted); font-size: 0.86rem;">User-controlled explicit facts Dakshu remembers about your goals and interests.</p>
+            </div>
+          </div>
+
+          <div class="badge badge-gradient" id="memory-counter-badge">
+            0 Memories Saved
+          </div>
+        </div>
+
+        <!-- Add New Memory Form -->
+        <form id="add-memory-form" style="display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+          <input type="text" id="memory-input" class="form-control" placeholder="e.g., I am learning FastAPI and preparing for software engineering interviews" style="flex: 1; min-width: 260px;" required>
+          <button type="submit" id="add-memory-btn" class="btn btn-cyan" style="padding: 0.75rem 1.4rem;">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i> Remember Fact
+          </button>
+        </form>
+
+        <!-- Saved Memories List -->
+        <div id="memories-container" class="memories-list">
+          <!-- Populated by JavaScript -->
+          <div style="text-align: center; padding: 2rem; color: var(--text-dim); font-size: 0.9rem;">
+            Loading memories from your vault...
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Account Security & Details -->
+      <div class="glass-card">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.8rem;">
+          <div class="feature-icon-wrapper" style="width: 38px; height: 38px; margin-bottom: 0;">
+            <i data-lucide="lock" style="width: 20px; height: 20px;"></i>
+          </div>
+          <div>
+            <h2 style="font-size: 1.25rem;">Account Credentials</h2>
+            <p style="color: var(--text-muted); font-size: 0.86rem;">Update your name, email, or change password.</p>
+          </div>
+        </div>
+
+        <form id="account-form">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; margin-bottom: 1.2rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="acc-name">Full Name</label>
+              <input type="text" id="acc-name" class="form-control" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="acc-email">Email Address</label>
+              <input type="email" id="acc-email" class="form-control" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="acc-curr-pass">Current Password (optional)</label>
+              <input type="password" id="acc-curr-pass" class="form-control" placeholder="••••••••">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="acc-new-pass">New Password</label>
+              <input type="password" id="acc-new-pass" class="form-control" placeholder="Min. 6 characters">
+            </div>
+          </div>
+
+          <button type="submit" id="update-acc-btn" class="btn btn-secondary" style="padding: 0.65rem 1.5rem;">
+            <i data-lucide="save" style="width: 16px; height: 16px;"></i> Update Account
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!DakshuApp.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Logout handler
+      const logoutBtn = document.getElementById('nav-logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          try {
+            await fetch(`${API_BASE}/auth/logout`, { method: 'POST' });
+          } catch (e) {}
+          DakshuApp.clearAuth();
+          window.location.href = 'login.html';
+        });
+      }
+
+      await loadProfileAndPreferences();
+      await loadMemories();
+    });
+
+    async function loadProfileAndPreferences() {
+      try {
+        const res = await DakshuApp.fetchWithAuth('/profile');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('profile-name').innerText = data.full_name;
+          document.getElementById('profile-email').innerText = data.email;
+          document.getElementById('profile-avatar').innerText = data.full_name ? data.full_name.charAt(0).toUpperCase() : 'U';
+
+          document.getElementById('acc-name').value = data.full_name;
+          document.getElementById('acc-email').value = data.email;
+
+          if (data.preferences) {
+            document.getElementById('pref-language').value = data.preferences.preferred_language || 'tanglish';
+            document.getElementById('pref-style').value = data.preferences.response_style || 'friendly';
+            document.getElementById('pref-voice').checked = data.preferences.voice_enabled !== false;
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load profile:", e);
+      }
+    }
+
+    // Save preferences
+    document.getElementById('preferences-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const preferred_language = document.getElementById('pref-language').value;
+      const response_style = document.getElementById('pref-style').value;
+      const voice_enabled = document.getElementById('pref-voice').checked;
+
+      try {
+        const res = await DakshuApp.fetchWithAuth('/memories/preferences', {
+          method: 'PUT',
+          body: JSON.stringify({ preferred_language, response_style, voice_enabled })
+        });
+        if (res.ok) {
+          DakshuApp.showToast("Companion preferences updated successfully!", "success");
+        } else {
+          DakshuApp.showToast("Failed to save preferences.", "error");
+        }
+      } catch (err) {
+        DakshuApp.showToast("Error saving preferences.", "error");
+      }
+    });
+
+    // Update Account
+    document.getElementById('account-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const full_name = document.getElementById('acc-name').value.trim();
+      const email = document.getElementById('acc-email').value.trim();
+      const current_password = document.getElementById('acc-curr-pass').value;
+      const new_password = document.getElementById('acc-new-pass').value;
+
+      const payload = { full_name, email };
+      if (new_password) {
+        if (!current_password) {
+          DakshuApp.showToast("Please enter your current password to set a new password.", "error");
+          return;
+        }
+        payload.current_password = current_password;
+        payload.new_password = new_password;
+      }
+
+      try {
+        const res = await DakshuApp.fetchWithAuth('/profile', {
+          method: 'PUT',
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          DakshuApp.setAuth(null, data);
+          document.getElementById('profile-name').innerText = data.full_name;
+          document.getElementById('profile-email').innerText = data.email;
+          document.getElementById('acc-curr-pass').value = '';
+          document.getElementById('acc-new-pass').value = '';
+          DakshuApp.showToast("Account details updated!", "success");
+        } else {
+          DakshuApp.showToast(data.detail || "Failed to update account.", "error");
+        }
+      } catch (err) {
+        DakshuApp.showToast("Error updating account.", "error");
+      }
+    });
+
+    // Load Memories
+    async function loadMemories() {
+      const container = document.getElementById('memories-container');
+      const counterBadge = document.getElementById('memory-counter-badge');
+
+      try {
+        const res = await DakshuApp.fetchWithAuth('/memories');
+        if (res.ok) {
+          const memories = await res.json();
+          counterBadge.innerText = `${memories.length} Memories Saved`;
+
+          if (memories.length === 0) {
+            container.innerHTML = `
+              <div style="text-align: center; padding: 2rem; color: var(--text-dim); font-size: 0.9rem;">
+                No memories saved yet. Add facts above for Dakshu to remember!
+              </div>
+            `;
+            return;
+          }
+
+          container.innerHTML = memories.map(m => `
+            <div class="memory-item" data-id="${m.id}">
+              <div class="memory-text">${escapeHtml(m.memory_text)}</div>
+              <div class="memory-meta">${new Date(m.created_at).toLocaleDateString()}</div>
+              <button class="memory-delete-btn" title="Delete Memory" onclick="deleteMemoryItem(${m.id})">
+                <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
+              </button>
+            </div>
+          `).join('');
+
+          if (window.lucide) lucide.createIcons();
+        }
+      } catch (e) {
+        container.innerHTML = `<div style="color: var(--neon-rose); text-align: center; padding: 1rem;">Failed to load memories.</div>`;
+      }
+    }
+
+    // Add Memory
+    document.getElementById('add-memory-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('memory-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      try {
+        const res = await DakshuApp.fetchWithAuth('/memories', {
+          method: 'POST',
+          body: JSON.stringify({ memory_text: text })
+        });
+        if (res.ok) {
+          input.value = '';
+          DakshuApp.showToast("Memory saved to Dakshu's vault!", "success");
+          await loadMemories();
+        } else {
+          DakshuApp.showToast("Failed to save memory.", "error");
+        }
+      } catch (err) {
+        DakshuApp.showToast("Error saving memory.", "error");
+      }
+    });
+
+    // Delete Memory Item
+    async function deleteMemoryItem(id) {
+      if (!confirm("Are you sure you want Dakshu to forget this memory?")) return;
+
+      try {
+        const res = await DakshuApp.fetchWithAuth(`/memories/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          DakshuApp.showToast("Memory deleted from vault.", "info");
+          await loadMemories();
+        } else {
+          DakshuApp.showToast("Failed to delete memory.", "error");
+        }
+      } catch (e) {
+        DakshuApp.showToast("Error deleting memory.", "error");
+      }
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.innerText = str;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
+
