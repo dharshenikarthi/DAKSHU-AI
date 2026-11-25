@@ -5,6 +5,9 @@ from backend.config import settings
 # Handle SQLite vs PostgreSQL configuration with resilient fallback
 def create_app_engine():
     db_url = settings.DATABASE_URL
+    if db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+
     connect_args = {}
     if db_url.startswith("sqlite"):
         connect_args["check_same_thread"] = False
@@ -23,7 +26,7 @@ def create_app_engine():
 engine = create_app_engine()
 
 # Enable Foreign Key support in SQLite
-if settings.DATABASE_URL.startswith("sqlite"):
+if str(engine.url).startswith("sqlite"):
     @event.listens_for(engine, "connect")
     def set_sqlite_pragma(dbapi_connection, connection_record):
         cursor = dbapi_connection.cursor()
