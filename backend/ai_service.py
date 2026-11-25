@@ -63,13 +63,16 @@ Avoid large code dumps or tables unless explicitly asked. Use short, punchy, war
 }
 
 def assemble_system_prompt(module: str = "companion", memory_injection: str = "") -> str:
-    now = datetime.now()
+    from backend.config import get_localized_now
+    tz_m = re.search(r"User Timezone:\s*([^\n]+)", memory_injection) if memory_injection else None
+    tz_str = tz_m.group(1).strip() if tz_m else "Asia/Kolkata"
+    now = get_localized_now(tz_str)
     current_time_str = now.strftime("%A, %B %d, %Y at %I:%M %p")
     temporal_context = (
         f"[REAL-TIME TEMPORAL CONTEXT]\n"
         f"- Current Date & Day: {now.strftime('%A, %B %d, %Y')}\n"
-        f"- Current Local Time: {now.strftime('%I:%M %p')}\n"
-        f"You are aware of the real-world current day, date, and time.\n"
+        f"- Current Local Time: {now.strftime('%I:%M %p')} ({tz_str})\n"
+        f"You are aware of the real-world current day, date, and local time in the user's timezone ({tz_str}).\n"
     )
 
     module_guide = MODULE_PROMPTS.get(module, MODULE_PROMPTS["companion"])
@@ -403,6 +406,12 @@ class BuiltinGemmaCompanionProvider(BaseAIProvider):
         user_name = self._extract_user_name(history, system_prompt)
         salutation = f", {user_name}" if user_name else ""
 
+        # Extract live timezone from system prompt or default to Asia/Kolkata
+        from backend.config import get_localized_now
+        sys_tz_m = re.search(r"User Timezone:\s*([^\n]+)", system_prompt)
+        tz_str = sys_tz_m.group(1).strip() if sys_tz_m else "Asia/Kolkata"
+        now = get_localized_now(tz_str)
+
         # Extract live location from system prompt or history
         sys_loc = None
         sys_m = re.search(r"User Detected/Saved Location:\s*([^\n]+)", system_prompt)
@@ -423,7 +432,6 @@ class BuiltinGemmaCompanionProvider(BaseAIProvider):
             "not answering correctly", "not giving correct answer", "why are you answering like this",
             "answer properly", "why not answering", "not answering my question", "why you are not answering"
         ]):
-            now = datetime.now()
             return (
                 f"### 🤝 Let me explain directly, {user_name}!\n\n"
                 f"I truly apologize! Here is exactly why my previous answers felt off:\n\n"
@@ -455,13 +463,12 @@ class BuiltinGemmaCompanionProvider(BaseAIProvider):
         has_location = any(w in q for w in ["location", "city", "where am i", "where i am", "enga irukken", "place", "state"])
 
         if (has_time or has_date) and has_location:
-            now = datetime.now()
             return (
                 f"### 🕒📍 Real-Time Date, Time & Location\n\n"
                 f"- **Today's Day & Date:** {now.strftime('%A, %B %d, %Y')}\n"
-                f"- **Current Local Time:** {now.strftime('%I:%M %p')}\n"
+                f"- **Current Local Time:** **{now.strftime('%I:%M %p')}**\n"
                 f"- **Your Current Location:** **{loc_str}** *(Live GPS/Browser Geolocation)*\n"
-                f"- **Device Timezone:** `Asia/Kolkata (IST)`\n\n"
+                f"- **Device Timezone:** `{tz_str}`\n\n"
                 f"Everything is synced live with your device, {user_name}! How can I help you today in {loc_str}?"
             )
 
@@ -474,13 +481,12 @@ class BuiltinGemmaCompanionProvider(BaseAIProvider):
             "what date is today", "date today", "day today"
         ]
         if any(term in q for term in time_queries) or (has_time and has_date):
-            now = datetime.now()
             date_str = now.strftime("%A, %B %d, %Y")
             time_str = now.strftime("%I:%M %p")
             return (
                 f"### 🕒 Current Date & Time\n\n"
                 f"- **Today's Day & Date:** {date_str}\n"
-                f"- **Current Local Time:** {time_str}\n"
+                f"- **Current Local Time:** **{time_str}**\n"
                 f"- **Location Context:** {loc_str}\n\n"
                 f"Is there a schedule, study session, or goal you'd like to plan for today{salutation}?"
             )
@@ -496,7 +502,7 @@ class BuiltinGemmaCompanionProvider(BaseAIProvider):
             return (
                 f"### 📍 Your Live Current Location\n\n"
                 f"You are currently located in **{loc_str}**! 🎯\n\n"
-                f"- **Device Timezone:** `Asia/Kolkata (IST)`\n"
+                f"- **Device Timezone:** `{tz_str}`\n"
                 f"- **Status:** Live browser/GPS tracking active with your permission.\n"
                 f"- **Saved:** I've recorded this in your Memory Vault so I can tailor study plans, local context, and daily routines specifically for you, {user_name}!\n\n"
                 f"How can I help you today in {loc_str}?"

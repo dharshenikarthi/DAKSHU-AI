@@ -68,13 +68,14 @@ class MemoryService:
         Builds dynamic context injection for Dakshu's prompt based on real-time clock,
         timezone, location, user preferences, and relevant memories. Separate from chat history.
         """
-        now = datetime.now()
+        from backend.config import get_localized_now
+        tz_str = client_timezone or "Asia/Kolkata"
+        now = get_localized_now(tz_str)
         context_lines = []
         context_lines.append("\n=== REAL-TIME CONTEXT & USER MEMORY ===")
         context_lines.append(f"- Current Day & Date: {now.strftime('%A, %B %d, %Y')}")
         context_lines.append(f"- Current Local Time: {now.strftime('%I:%M %p')}")
-        if client_timezone:
-            context_lines.append(f"- User Timezone: {client_timezone}")
+        context_lines.append(f"- User Timezone: {tz_str}")
         if client_location:
             context_lines.append(f"- User Detected/Saved Location: {client_location}")
 

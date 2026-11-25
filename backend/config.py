@@ -1,5 +1,6 @@
 import os
-from typing import List
+from typing import List, Optional
+from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -9,6 +10,27 @@ if env_path.exists():
     load_dotenv(dotenv_path=env_path)
 else:
     load_dotenv()
+
+def get_localized_now(tz_name: Optional[str] = None) -> datetime:
+    """Returns real-time datetime converted to client timezone (default: Asia/Kolkata / IST)."""
+    tz = None
+    if tz_name:
+        try:
+            from zoneinfo import ZoneInfo
+            tz = ZoneInfo(tz_name.strip())
+        except Exception:
+            pass
+    if not tz:
+        try:
+            from zoneinfo import ZoneInfo
+            tz = ZoneInfo("Asia/Kolkata")
+        except Exception:
+            try:
+                from datetime import timezone, timedelta
+                tz = timezone(timedelta(hours=5, minutes=30))
+            except Exception:
+                tz = None
+    return datetime.now(tz) if tz else datetime.now()
 
 class Settings:
     # Project Info
